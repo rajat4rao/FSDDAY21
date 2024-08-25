@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import List from "./components/List";
+import Banner from "./components/Banner";
+import "./App.css";
 
-function App() {
+
+const App = () => {
+  // Manage cart items in state
+  const [cart, setCart] = useState([]);
+
+  // to add an item in the cart
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
+  // to remove item from cart
+  const removeFromCart = (product) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== product.id));
+  };
+
+  // Function to check whether cart has an item
+  const isInCart = (product) => {
+    return cart.some((item) => item.id === product.id);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header cartCount={cart.length} />
+      <Banner />
+      <List
+        addToCart={addToCart}
+        removeFromCart={removeFromCart}
+        isInCart={isInCart}
+      />
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;
